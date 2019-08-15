@@ -1,0 +1,27 @@
+comint-hyperlink.el: Create hyperlinks in comint for SGR URL control sequences
+
+* Usage
+
+Two methods can be used for setting this up. Both involve customizing
+=comint-hyperlink-process-outputcomint-output-filter-functions=. First
+for vanilla Emacs,
+
+#+BEGIN_SRC emacs-lisp
+(require 'comint-hyperlink)
+(add-to-list 'comint-output-filter-functions 'comint-hyperlink-process-output)
+#+END_SRC
+
+Now for =use-package= users:
+
+#+BEGIN_SRC emacs-lisp
+(use-package comint-hyperlink
+  :commands (comint-hyperlink-process-output)
+  :init (add-to-list 'comint-output-filter-functions 'comint-hyperlink-process-output))
+#+END_SRC
+
+At some point this will be available on MELPA.
+
+* About
+
+See https://gist.github.com/egmontkob/eb114294efbcd5adb1944c9f3cb5feda
+for more information.
