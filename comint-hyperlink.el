@@ -47,7 +47,7 @@
 (require 'url-util)
 
 (defvar comint-hyperlink-control-seq-regexp
-  "\e\\]8;;\\([^\a]*\\)\a\\([^\e]*\\)\e]8;;\a")
+  "\e\\]8;;\\([^\a\e]*\\)[\a\e]\\(?:\\\\\\)?\\([^\e]*\\)\e]8;;[\a\e]\\(?:\\\\\\)?")
 
 (defgroup comint-hyperlink nil
   "Comint hyperlink handling"
@@ -73,7 +73,7 @@ Falls back to ‘browse-url’."
   "Use ‘browse-url’ to open the URL."
   ;; Need to strip hostname from file urls
   (browse-url
-   (replace-regexp-in-string "^file:///?[^/]+" "file://" (match-string 1))))
+   (replace-regexp-in-string "^file:///?[^/]+" "file://" url)))
 
 (define-button-type 'comint-hyperlink
   'follow-link t
