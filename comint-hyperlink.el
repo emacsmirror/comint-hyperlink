@@ -104,26 +104,28 @@ This is a good function to put in
   (interactive)
   (when comint-hyperlink-for-comint-mode
     (let ((start-marker (if (and (markerp comint-last-output-start)
-			       (eq (marker-buffer comint-last-output-start)
-				   (current-buffer))
-			       (marker-position comint-last-output-start))
-			  comint-last-output-start
-			(point-min-marker)))
-	(end-marker (process-mark (get-buffer-process (current-buffer)))))
-    (save-excursion
-      (goto-char start-marker)
-      (while (re-search-forward comint-hyperlink-control-seq-regexp end-marker t)
-	(let ((url (match-string 1)) (text (match-string 2))
-	      start)
-	  (delete-region (match-beginning 0) (point))
-	  (setq start (point))
-	  (cond
-	   ((eq comint-hyperlink-for-comint-mode 'filter)
-	    (insert text))
-	   ((eq comint-hyperlink-for-comint-mode t)
-	    (insert-button text
-			   'type 'comint-hyperlink
-			   'comint-hyperlink-url (url-unhex-string url))))))))))
+				 (eq (marker-buffer comint-last-output-start)
+				     (current-buffer))
+				 (marker-position comint-last-output-start))
+			    comint-last-output-start
+			  (point-min-marker)))
+	  (end-marker (process-mark (get-buffer-process (current-buffer)))))
+      (save-excursion
+	(goto-char start-marker)
+	(while (re-search-forward comint-hyperlink-control-seq-regexp end-marker t)
+	  (let ((url (match-string 1)) (text (match-string 2))
+		start)
+	    (delete-region (match-beginning 0) (point))
+	    (setq start (point))
+	    (cond
+	     ((eq comint-hyperlink-for-comint-mode 'filter)
+	      (insert text))
+	     ((eq comint-hyperlink-for-comint-mode t)
+	      (insert-button text
+			     'type 'comint-hyperlink
+			     'comint-hyperlink-url (url-unhex-string url)
+			     'help-echo (format "Visit %s"
+						(url-unhex-string url)))))))))))
 
 (provide 'comint-hyperlink)
 ;;; comint-hyperlink.el ends here
