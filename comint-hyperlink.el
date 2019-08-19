@@ -81,7 +81,7 @@ Falls back to ‘browse-url’."
   (cond
    ((string-match-p "^file://" url)
     (find-file
-     (replace-regexp-in-string "^file:///?[^/]+" "" url)))
+     (replace-regexp-in-string "^file://[^/]*" "" url)))
    (t (comint-hyperlink-browse-url url))))
 
 (defun comint-hyperlink-browse-url (url)
