@@ -45,12 +45,16 @@
 (require 'comint)
 (require 'button)
 (require 'url-util)
+(require 'regexp-opt)
 
 (defvar comint-hyperlink-control-seq-regexp
   "\e\\]8;;\\([^\a\e]*\\)[\a\e]\\(?:\\\\\\)?\\([^\e]*\\)\e]8;;[\a\e]\\(?:\\\\\\)?")
 
 (defvar comint-hyperlink-file-regexp
   "^file://\\([^/]*\\)")
+
+(defvar comint-hyperlink-url-protocols
+  (regexp-opt '("http" "https" "ftp" "man" "mailto" "news")))
 
 (defgroup comint-hyperlink nil
   "Comint hyperlink handling"
@@ -90,8 +94,10 @@ Falls back to ‘browse-url’."
 (defun comint-hyperlink-browse-url (url)
   "Use ‘browse-url’ to open the URL."
   ;; Need to strip hostname from file urls
-  (browse-url
-   (replace-regexp-in-string comint-hyperlink-file-regexp "file://" url)))
+  (if (string-match-p comint-hyperlink-url-protocols url)
+      (browse-url
+       (replace-regexp-in-string comint-hyperlink-file-regexp "file://" url))
+    (error "Protocol for %s not supported by browse-url" url)))
 
 (define-button-type 'comint-hyperlink
   'follow-link t
