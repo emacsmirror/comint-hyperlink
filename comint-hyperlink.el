@@ -56,8 +56,8 @@
 (defcustom comint-hyperlink-action 'comint-hyperlink-find-file
   "Action to use in comint-hyperlink button."
   :group 'comint-hyperlink
-  :type '(choice (const :tag "Browse url" 'comint-hyperlink-browse-url)
-		 (const :tag "Find file" 'comint-hyperlink-find-file)
+  :type '(choice (function :tag "Browse url" 'comint-hyperlink-browse-url)
+		 (function :tag "Find file" 'comint-hyperlink-find-file)
 		 (function :tag "Custom function")))
 
 (defcustom comint-hyperlink-for-comint-mode t
