@@ -95,6 +95,7 @@ Falls back to ‘browse-url’."
 
 (define-button-type 'comint-hyperlink
   'follow-link t
+  'face nil
   'action (lambda (x) (funcall comint-hyperlink-action
 			       (button-get x 'comint-hyperlink-url))))
 
