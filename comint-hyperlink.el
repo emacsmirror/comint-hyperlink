@@ -5,7 +5,7 @@
 ;; Author: Matthew Bauer <mjbauer95@gmail.com>
 ;; Created: 15 Aug 2019
 ;; Keywords: comint, shell, processes, hypermedia, terminals
-;; Version: 0.1.2
+;; Version: 0.1.3
 ;; Homepage: https://github.com/matthewbauer/comint-hyperlink
 ;; Package-Requires: ((emacs "24.3"))
 
