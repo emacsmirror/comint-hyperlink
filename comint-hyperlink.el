@@ -1,4 +1,4 @@
-;;; comint-hyperlink.el --- Create hyperlinks in comint for SGR URL control sequences
+;;; comint-hyperlink.el --- Create hyperlinks in comint for SGR URL control sequences -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2019 Matthew Bauer
 
@@ -132,10 +132,8 @@ This is a good function to put in
       (save-excursion
 	(goto-char start-marker)
 	(while (re-search-forward comint-hyperlink-control-seq-regexp end-marker t)
-	  (let ((url (match-string 1)) (text (match-string 2))
-		start)
+	  (let ((url (match-string 1)) (text (match-string 2)))
 	    (delete-region (match-beginning 0) (point))
-	    (setq start (point))
 	    (cond
 	     ((eq comint-hyperlink-for-comint-mode 'filter)
 	      (insert text))
