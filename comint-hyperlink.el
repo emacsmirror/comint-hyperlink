@@ -65,6 +65,7 @@
   :group 'comint-hyperlink
   :type '(choice (function :tag "Browse url" 'comint-hyperlink-browse-url)
 		 (function :tag "Find file" 'comint-hyperlink-find-file)
+		 (function :tag "Browse url (don’t ask)" 'comint-hyperlink-browse-url-no-ask)
 		 (function :tag "Custom function")))
 
 (defcustom comint-hyperlink-for-comint-mode t
@@ -92,6 +93,13 @@ Falls back to ‘browse-url’."
    (t (comint-hyperlink-browse-url url))))
 
 (defun comint-hyperlink-browse-url (url)
+  "Use ‘browse-url’ to open the URL.
+
+Asks for confirmation with ‘yes-or-no-p’"
+  (when (yes-or-no-p (format "Open %s in a web browser? " url))
+    (comint-hyperlink-browse-url-no-ask url)))
+
+(defun comint-hyperlink-browse-url-no-ask (url)
   "Use ‘browse-url’ to open the URL."
   ;; Need to strip hostname from file urls
   (if (string-match-p comint-hyperlink-url-protocols url)
