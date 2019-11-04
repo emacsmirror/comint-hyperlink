@@ -123,7 +123,8 @@ This is a good function to put in
 `comint-output-filter-functions'."
   (interactive)
   (when comint-hyperlink-for-comint-mode
-    (let ((start-marker (or comint-hyperlink-escape-start
+    (let ((start-marker (or (cadr ansi-color-context-region)
+			    comint-hyperlink-escape-start
                             (if (and (markerp comint-last-output-start)
                                      (eq (marker-buffer comint-last-output-start)
                                          (current-buffer))
@@ -138,12 +139,12 @@ This is a good function to put in
           (let ((url (match-string 1)) (text (match-string 2)))
             (cond
              ((eq comint-hyperlink-for-comint-mode 'filter)
-              (remove-text-properties (match-beginning 0) (point) '(read-only t))
-              (delete-region (match-beginning 0) (point))
+              (remove-text-properties (match-beginning 0) (match-end 0) '(read-only t))
+              (delete-region (match-beginning 0) (match-end 0))
               (insert text))
              ((eq comint-hyperlink-for-comint-mode t)
-              (delete-region (match-beginning 0) (point))
-              (remove-text-properties (match-beginning 0) (point) '(read-only t))
+              (remove-text-properties (match-beginning 0) (match-end 0) '(read-only t))
+              (delete-region (match-beginning 0) (match-end 0))
               (insert-button text
                              'type 'comint-hyperlink
                              'comint-hyperlink-url (url-unhex-string url)
@@ -151,9 +152,9 @@ This is a good function to put in
                                                 (url-unhex-string url)))))))
 
         ;; Save ending escape sequence that isn’t closed
-        (if (re-search-forward "\e\\]8" end-marker t)
-            (setq comint-hyperlink-escape-start (match-beginning 0))
-          (setq comint-hyperlink-escape-start nil))))))
+	(if (re-search-forward "\e\\]8" end-marker t)
+	    (setq comint-hyperlink-escape-start (match-beginning 0))
+	  (setq comint-hyperlink-escape-start nil))))))
 
 (provide 'comint-hyperlink)
 ;;; comint-hyperlink.el ends here
