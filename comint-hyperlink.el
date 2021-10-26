@@ -123,8 +123,7 @@ This is a good function to put in
 `comint-output-filter-functions'."
   (interactive)
   (when comint-hyperlink-for-comint-mode
-    (let ((start-marker (or (cadr ansi-color-context-region)
-			    comint-hyperlink-escape-start
+    (let ((start-marker (or comint-hyperlink-escape-start
                             (if (and (markerp comint-last-output-start)
                                      (eq (marker-buffer comint-last-output-start)
                                          (current-buffer))
